@@ -1,0 +1,52 @@
+### Tomcat
+server.port: 8585
+
+### Service API
+service.api:
+  major.version: v0
+  version: 0.0.7
+  title: ${spring.application.name}
+  selector: /**
+  docket.custom: true
+  description: Bukable backend MVP
+
+### SpringDoc settings
+springdoc.swagger-ui.disable-swagger-default-url: true
+
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: Middleware optimization layer for enterprise solution
+  ### DB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/diploma_db
+    driverClassName: org.postgresql.Driver
+    username: dbuser
+    password: dbuser
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: false
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+#  ### Liquibase Migration Tool
+#  liquibase:
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
+#    parameters:
+#      schema-name: public
+
+#full-text search
+hibernate.search.default:
+  directory_provider: filesystem
+  indexBase: /data/index/default
+
+### App configs
+#mail.ru
+app:
+  server:
+    basePath: http://localhost:${server.port}
+# Pagination
+  pagination:
+    defaultPageValue: 0
