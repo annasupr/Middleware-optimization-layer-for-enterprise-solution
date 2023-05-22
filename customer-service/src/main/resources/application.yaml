@@ -1,5 +1,5 @@
 ### Tomcat
-server.port: 8585
+server.port: 8584
 
 ### Service API
 service.api:
@@ -8,7 +8,7 @@ service.api:
   title: ${spring.application.name}
   selector: /**
   docket.custom: true
-  description: Middleware optimization layer is a proxy for maintaining stable server part for all underlying backend systems
+  description: Customer management service is responsible for CRUD operations on users data
 
 ### SpringDoc settings
 springdoc.swagger-ui.disable-swagger-default-url: true
@@ -17,7 +17,7 @@ spring:
   main:
     allow-circular-references: true
   application:
-    name: Middleware optimization layer for enterprise solution
+    name: Customer management service for enterprise solution
   ### DB
   datasource:
     url: jdbc:postgresql://localhost:5432/diploma_db
@@ -30,7 +30,9 @@ spring:
     hibernate.ddl-auto: create-drop
     show-sql: true
     properties:
-      hibernate.jdbc.lob.non_contextual_creation: true
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
+        default_schema: customer_schema
 #  ### Liquibase Migration Tool
 #  liquibase:
 #    change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -47,6 +49,6 @@ hibernate.search.default:
 app:
   server:
     basePath: http://localhost:${server.port}
-# Pagination
+  # Pagination
   pagination:
     defaultPageValue: 0

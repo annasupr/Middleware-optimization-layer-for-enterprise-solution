@@ -1,4 +1,4 @@
-package com.upk.diploma.config.properties;
+package com.upk.diploma.customerservice.config.properties;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
