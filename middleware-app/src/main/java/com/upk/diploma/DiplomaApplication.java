@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class DiplomaApplication {
 
     public static void main(String[] args) {
+        //
         SpringApplication.run(DiplomaApplication.class, args);
     }
 
