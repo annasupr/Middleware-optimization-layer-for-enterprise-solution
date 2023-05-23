@@ -16,8 +16,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "point_of_distribution")
-public class PointOfDistribution {
+@Table(name = "duration")
+public class Duration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

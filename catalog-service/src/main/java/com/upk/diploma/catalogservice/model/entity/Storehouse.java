@@ -16,8 +16,8 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "point_of_distribution")
-public class PointOfDistribution {
+@Table(name = "storehouse")
+public class Storehouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -25,4 +25,10 @@ public class PointOfDistribution {
 
     @Column(name = "name", length = 100)
     private String name;
+
+    @Column(name = "address", columnDefinition = "TEXT")
+    private String address;
+
+    @Column(name = "phone", length = 10)
+    private String phone;
 }

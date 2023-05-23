@@ -18,21 +18,30 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "offer")
-public class Offer {
+@Table(name = "product")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "product_category_id")
+    private ProductCategory productCategory;
+
     @Column(name = "title", length = 100)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "market_id")
-    private Market market;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "image_url", columnDefinition = "TEXT")
+    private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name = "point_of_distribution_id")
-    private PointOfDistribution pointOfDistribution;
+    @JoinColumn(name = "duration_id")
+    private Duration duration;
+
+    @Column(name = "memory_mb")
+    private Integer memoryMb;
 }

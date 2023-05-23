@@ -39,6 +39,5 @@ public class Order {
 //    @ManyToOne
 //    @JoinColumn(name = "customer_profile_id", referencedColumnName = "id", insertable = false, updatable = false)
     @Column(name = "customer_profile_id")
-    private Long customerProfile; // Используем тип Object для обозначения связи с другой сущностью
-
+    private Long customerProfile;
 }
