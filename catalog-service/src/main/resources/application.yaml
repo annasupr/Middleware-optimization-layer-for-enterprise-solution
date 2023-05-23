@@ -1,0 +1,54 @@
+### Tomcat
+server.port: 8582
+
+### Service API
+service.api:
+  major.version: v0
+  version: 0.0.1
+  title: ${spring.application.name}
+  selector: /**
+  docket.custom: true
+  description: Catalog management service is responsible for CRUD operations on products and offers data
+
+### SpringDoc settings
+springdoc.swagger-ui.disable-swagger-default-url: true
+
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: Catalog management service for enterprise solution
+  ### DB
+  datasource:
+    url: jdbc:postgresql://localhost:5432/diploma_db
+    driverClassName: org.postgresql.Driver
+    username: dbuser
+    password: dbuser
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: false
+    hibernate.ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc.lob.non_contextual_creation: true
+        default_schema: catalog_schema
+#  ### Liquibase Migration Tool
+#  liquibase:
+#    change-log: classpath:db/changelog/db.changelog-master.yaml
+#    parameters:
+#      schema-name: public
+
+#full-text search
+hibernate.search.default:
+  directory_provider: filesystem
+  indexBase: /data/index/default
+
+### App configs
+#mail.ru
+app:
+  server:
+    basePath: http://localhost:${server.port}
+  # Pagination
+  pagination:
+    defaultPageValue: 0
