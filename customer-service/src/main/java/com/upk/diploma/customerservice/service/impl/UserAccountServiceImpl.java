@@ -40,11 +40,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccountResponse update(Long userAccountId, UserAccountCreateRequest userAccountCreateRequest) {
-        final UserAccount dealEntity = Optional.ofNullable(userAccountMapper.map(userAccountCreateRequest))
+        final UserAccount userAccount = Optional.ofNullable(userAccountMapper.map(userAccountCreateRequest))
                 .orElseThrow(() -> new ConversionException("User Account"));
-        dealEntity.setId(userAccountId);
+        userAccount.setId(userAccountId);
 
-        final UserAccount savedUserAccount = userAccountRepository.save(dealEntity);
+        final UserAccount savedUserAccount = userAccountRepository.save(userAccount);
         return userAccountMapper.map(savedUserAccount);
     }
 

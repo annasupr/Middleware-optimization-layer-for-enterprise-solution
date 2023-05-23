@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "order")
 public class Order {
 
@@ -36,8 +38,6 @@ public class Order {
     @JoinColumn(name = "order_status_id")
     private OrderStatus orderStatus;
 
-//    @ManyToOne
-//    @JoinColumn(name = "customer_profile_id", referencedColumnName = "id", insertable = false, updatable = false)
     @Column(name = "customer_profile_id")
-    private Long customerProfile;
+    private Long customerProfileId;
 }
