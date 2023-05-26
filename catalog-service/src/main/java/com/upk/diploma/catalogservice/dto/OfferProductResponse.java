@@ -1,6 +1,7 @@
 package com.upk.diploma.catalogservice.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,10 +10,11 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class OfferProductResponse {
     private Long id;
-    private OfferResponse offer;
-    private ProductResponse product;
+    private Long offerId;
+    private Long productId;
     private Double price;
     private Integer quantity;
 }
