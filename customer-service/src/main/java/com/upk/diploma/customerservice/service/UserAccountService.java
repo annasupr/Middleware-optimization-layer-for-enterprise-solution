@@ -6,6 +6,8 @@ import com.upk.diploma.customerservice.dto.UserAccountResponse;
 public interface UserAccountService {
     UserAccountResponse getById(Long id);
 
+    UserAccountResponse getByUsername(String username);
+
     UserAccountResponse create(UserAccountCreateRequest userAccountResponse);
 
     UserAccountResponse update(Long userAccountId, UserAccountCreateRequest userAccountResponse);

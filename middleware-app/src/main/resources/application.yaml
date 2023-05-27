@@ -1,6 +1,11 @@
 ### Tomcat
 server.port: 8585
 
+### Spring Security
+security:
+  enable:
+    csrf: false
+
 ### Service API
 service.api:
   major.version: v0
@@ -50,3 +55,42 @@ app:
 # Pagination
   pagination:
     defaultPageValue: 0
+# JWT
+  jwtSecret: middlewareAppSecretKey111222333
+  jwtExpirationMs: 86400000
+# Services URLs
+  services:
+    customerServiceUrl: http://localhost:8584
+    orderServiceUrl: http://localhost:8583
+    catalogServiceUrl: http://localhost:8582
+
+
+
+### Circuit breaker config
+resilience4j:
+  circuitbreaker:
+    configs:
+      shared:
+        register-health-indicator: true
+        sliding-window-type: count_based
+        sliding-window-size: 5
+        failure-rate-threshold: 40
+        slow-call-rate-threshold: 40
+        permitted-number-of-calls-in-half-open-state: 1
+        max-wait-duration-in-half-open-state: 10s
+        wait-duration-in-open-state: 10s
+        slow-call-duration-threshold: 2s
+        writable-stack-trace-enabled: true
+        automatic-transition-from-open-to-half-open-enabled: true
+    instances:
+      example:
+        base-config: shared
+  retry:
+    instances:
+      retryApi:
+        max-attempts: 3
+        wait-duration: 1s
+    metrics:
+      legacy:
+        enabled: true
+      enabled: true

@@ -1,4 +1,4 @@
-package com.upk.diploma.customerservice.dto;
+package com.upk.diploma.dto.customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

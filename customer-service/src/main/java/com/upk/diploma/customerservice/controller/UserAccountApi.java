@@ -31,6 +31,13 @@ public class UserAccountApi {
         return new ResponseEntity<>(foundUserAccount, HttpStatus.OK);
     }
 
+    @GetMapping("/{username}")
+    public final ResponseEntity<UserAccountResponse> getUserAccountByUsername(@PathVariable final String username) {
+        final UserAccountResponse foundUserAccount = userAccountService.getByUsername(username);
+
+        return new ResponseEntity<>(foundUserAccount, HttpStatus.OK);
+    }
+
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public final ResponseEntity<UserAccountResponse> createUserAccount(
             @RequestBody final UserAccountCreateRequest userAccountCreateRequest

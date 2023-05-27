@@ -29,6 +29,13 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public UserAccountResponse getByUsername(String username) {
+        return userAccountRepository.findUserAccountByUsername(username)
+                .map(userAccountMapper::map)
+                .orElseThrow(() -> new DataNotFoundException("User Account", username));
+    }
+
+    @Override
     public UserAccountResponse create(UserAccountCreateRequest userAccountCreateRequest) {
         final UserAccount userAccount = Optional.ofNullable(userAccountMapper.map(userAccountCreateRequest))
                 .orElseThrow(() -> new ConversionException(("User Account")));

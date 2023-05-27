@@ -6,6 +6,7 @@ import com.upk.diploma.customerservice.exception.DataNotFoundException;
 import com.upk.diploma.customerservice.model.entity.UserAccount;
 import com.upk.diploma.customerservice.repository.RoleRepository;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -32,6 +33,7 @@ public abstract class UserAccountMapper {
         userAccount.username( userAccountResponse.getUsername() );
         userAccount.email( userAccountResponse.getEmail() );
         userAccount.phone( userAccountResponse.getPhone() );
+        userAccount.password(userAccountResponse.getPassword());
         userAccount.role( roleRepository.findById(userAccountResponse.getRole().getId())
                 .orElseThrow(() -> new DataNotFoundException("Role", userAccountResponse.getRole().getId())) );
 
@@ -56,5 +58,6 @@ public abstract class UserAccountMapper {
         return userAccount.build();
     }
 
+    @Mapping(target = "password", source = "password")
     public abstract UserAccountResponse map(UserAccount userAccount);
 }

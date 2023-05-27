@@ -28,7 +28,7 @@ import jakarta.persistence.CascadeType;
 public class UserAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
