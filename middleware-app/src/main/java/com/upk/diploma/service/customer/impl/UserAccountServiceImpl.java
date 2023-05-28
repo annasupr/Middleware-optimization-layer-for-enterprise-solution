@@ -23,6 +23,7 @@ import java.util.List;
 public class UserAccountServiceImpl extends BasicRestService<UserAccountResponse> implements UserAccountService {
 
     private static final String USER_ACCOUNT_API_PATH = "/api/account";
+    private static final String USER_ACCOUNT_API_BY_ID_PATH = "/api/account/{id}";
     private static final String USER_ACCOUNT_ROLES_API_PATH = "/api/roles";
 
     public static final String ERROR_USERNAME = "Username is already taken";
@@ -77,6 +78,30 @@ public class UserAccountServiceImpl extends BasicRestService<UserAccountResponse
 
         return super.get(externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_PATH + "/" + id,
                 headers);
+    }
+
+    @Override
+    public List<UserAccountResponse> getAllUserAccounts() {
+        String url = externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_PATH;
+        return super.getAll(url, new HttpHeaders());
+    }
+
+    @Override
+    public UserAccountResponse getUserAccountById(Long id) {
+        String url = externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_BY_ID_PATH.replace("{id}", id.toString());
+        return super.get(url, new HttpHeaders());
+    }
+
+    @Override
+    public void deleteUserAccountById(Long id) {
+        String url = externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_BY_ID_PATH.replace("{id}", id.toString());
+        super.delete(url, new HttpHeaders());
+    }
+
+    @Override
+    public UserAccountResponse updateUserAccount(Long id, UserAccountResponse updatedUserAccount) {
+        String url = externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_BY_ID_PATH.replace("{id}", id.toString());
+        return super.put(url, updatedUserAccount, new HttpHeaders());
     }
 
     private void validateSignUpRequest(UserAccountCreateRequest signUpRequest) throws RegisterUserException {

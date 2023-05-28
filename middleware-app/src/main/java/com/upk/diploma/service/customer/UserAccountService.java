@@ -15,4 +15,12 @@ public interface UserAccountService {
     UserAccountResponse getInfoByUsername(String username);
 
     UserAccountResponse getInfoById(Long id);
+
+    List<UserAccountResponse> getAllUserAccounts();
+
+    UserAccountResponse getUserAccountById(Long id);
+
+    void deleteUserAccountById(Long id);
+
+    UserAccountResponse updateUserAccount(Long id, UserAccountResponse updatedUserAccount);
 }

@@ -60,6 +60,18 @@ public class BasicRestService<T> {
         return response.getBody();
     }
 
+    public T put(String url, Object body, HttpHeaders headers){
+        HttpEntity requestEntity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<T> response = restTemplate
+                .exchange(url,
+                        HttpMethod.PUT,
+                        requestEntity,
+                        clazz);
+
+        return response.getBody();
+    }
+
     public void delete(String url, HttpHeaders headers){
         HttpEntity requestEntity = new HttpEntity<>(null, headers);
 
