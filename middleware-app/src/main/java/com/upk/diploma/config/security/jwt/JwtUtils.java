@@ -28,8 +28,11 @@ public class JwtUtils {
 
         com.upk.diploma.config.security.service.UserDetails userPrincipal = (com.upk.diploma.config.security.service.UserDetails) authentication.getPrincipal();
 
-        return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+        return Jwts.builder()
+                .setSubject((userPrincipal.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 

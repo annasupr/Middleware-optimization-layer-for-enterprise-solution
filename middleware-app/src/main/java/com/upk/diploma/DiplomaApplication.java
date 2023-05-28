@@ -1,10 +1,13 @@
 package com.upk.diploma;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
@@ -23,5 +26,14 @@ public class DiplomaApplication {
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
+
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+        JavaTimeModule module = new JavaTimeModule();
+        return new ObjectMapper()
+                .registerModule(module);
+    }
+
 
 }

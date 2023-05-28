@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,8 +32,8 @@ public class UserAccountApi {
         return new ResponseEntity<>(foundUserAccount, HttpStatus.OK);
     }
 
-    @GetMapping("/{username}")
-    public final ResponseEntity<UserAccountResponse> getUserAccountByUsername(@PathVariable final String username) {
+    @GetMapping
+    public final ResponseEntity<UserAccountResponse> getUserAccountByUsername(@RequestHeader final String username) {
         final UserAccountResponse foundUserAccount = userAccountService.getByUsername(username);
 
         return new ResponseEntity<>(foundUserAccount, HttpStatus.OK);

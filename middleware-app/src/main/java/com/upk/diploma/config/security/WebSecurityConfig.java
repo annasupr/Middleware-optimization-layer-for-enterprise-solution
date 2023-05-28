@@ -50,10 +50,8 @@ public class WebSecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
-
-//                        .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/**")).permitAll()
-//                        .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/auth")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/auth")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)

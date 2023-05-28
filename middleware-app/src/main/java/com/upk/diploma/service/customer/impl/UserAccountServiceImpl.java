@@ -1,5 +1,6 @@
 package com.upk.diploma.service.customer.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.upk.diploma.config.properties.ExternalServicesProperties;
 import com.upk.diploma.dto.customer.RoleResponse;
 import com.upk.diploma.dto.customer.UserAccountCreateRequest;
@@ -24,8 +25,8 @@ public class UserAccountServiceImpl extends BasicRestService<UserAccountResponse
     private static final String USER_ACCOUNT_ROLES_API_PATH = "/api/roles";
 
     public UserAccountServiceImpl(ExternalServicesProperties externalServicesProperties,
-                                  RestTemplate restTemplate) {
-        super(externalServicesProperties, restTemplate);
+                                  RestTemplate restTemplate, ObjectMapper objectMapper) {
+        super(externalServicesProperties, restTemplate, objectMapper, UserAccountResponse.class);
     }
 
     @Override
@@ -51,9 +52,10 @@ public class UserAccountServiceImpl extends BasicRestService<UserAccountResponse
     @Override
     public UserAccountResponse getInfoByUsername(String username) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("username", username);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        return super.get(externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_PATH + "/" + username,
+        return super.get(externalServicesProperties.getCustomerServiceUrl() + USER_ACCOUNT_API_PATH,
                 headers);
     }
 

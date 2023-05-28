@@ -34,8 +34,7 @@ public class UserAccount {
     @Column(name = "username")
     private String username;
 
-    @Lob
-    @Column(name = "password")
+    @Column(name = "password", columnDefinition = "TEXT")
     private String password;
 
     @Column(name = "email", nullable = false, unique = true)
