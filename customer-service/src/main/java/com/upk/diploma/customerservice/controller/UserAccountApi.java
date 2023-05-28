@@ -63,4 +63,18 @@ public class UserAccountApi {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/username")
+    public final ResponseEntity<Boolean> checkIfUsernameExists(@RequestHeader final String username) {
+        final Boolean usernameExists = userAccountService.verifyUsernameExists(username);
+
+        return new ResponseEntity<>(usernameExists, HttpStatus.OK);
+    }
+
+    @GetMapping("/email")
+    public final ResponseEntity<Boolean> checkIfEmailExists(@RequestHeader final String email) {
+        final Boolean usernameExists = userAccountService.verifyEmailExists(email);
+
+        return new ResponseEntity<>(usernameExists, HttpStatus.OK);
+    }
 }

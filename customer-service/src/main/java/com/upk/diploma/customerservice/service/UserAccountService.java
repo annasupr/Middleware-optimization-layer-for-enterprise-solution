@@ -13,4 +13,8 @@ public interface UserAccountService {
     UserAccountResponse update(Long userAccountId, UserAccountCreateRequest userAccountResponse);
 
     void delete(Long userAccountId);
+
+    Boolean verifyUsernameExists(String username);
+
+    Boolean verifyEmailExists(String email);
 }

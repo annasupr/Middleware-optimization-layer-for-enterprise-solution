@@ -63,4 +63,14 @@ public class UserAccountServiceImpl implements UserAccountService {
             throw new DataNotFoundException("User Account", userAccountId);
         }
     }
+
+    @Override
+    public Boolean verifyUsernameExists(String username) {
+        return userAccountRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Boolean verifyEmailExists(String email) {
+        return userAccountRepository.existsByEmail(email);
+    }
 }
