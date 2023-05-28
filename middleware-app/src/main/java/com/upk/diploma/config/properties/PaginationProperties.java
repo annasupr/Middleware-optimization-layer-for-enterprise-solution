@@ -12,4 +12,7 @@ public class PaginationProperties {
 
     @NotNull
     private Integer defaultPageValue;
+
+    @NotNull
+    private Integer defaultPageSize;
 }

@@ -5,8 +5,6 @@ import com.upk.diploma.catalogservice.model.entity.OfferProduct;
 import com.upk.diploma.catalogservice.repository.OfferRepository;
 import com.upk.diploma.catalogservice.repository.ProductRepository;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
@@ -32,7 +30,6 @@ public abstract class OfferProductMapper {
                 .orElseThrow(() -> new com.upk.diploma.catalogservice.exception.DataNotFoundException("Offer", offerProduct.getProductId())));
         offerProductBuilder.product(productRepository.findById(offerProduct.getProductId())
                 .orElseThrow(() -> new com.upk.diploma.catalogservice.exception.DataNotFoundException("Product", offerProduct.getProductId())));
-        offerProductBuilder.price(offerProduct.getPrice());
 
         return offerProductBuilder.build();
     }
