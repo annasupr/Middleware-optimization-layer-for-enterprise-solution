@@ -96,4 +96,12 @@ public class BasicRestService<T> {
         }
         return result;
     }
+
+    protected HttpHeaders createHeaders() {
+        // Create and set any required headers for authentication or other purposes
+        HttpHeaders headers = new HttpHeaders();
+        // headers.add("Authorization", "Bearer {token}");
+        // headers.setContentType(MediaType.APPLICATION_JSON);
+        return headers;
+    }
 }
