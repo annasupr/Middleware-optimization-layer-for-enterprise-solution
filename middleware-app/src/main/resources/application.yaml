@@ -78,29 +78,45 @@ app:
     catalogServiceUrl: http://localhost:8582
 
 ### Circuit breaker config
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
 resilience4j:
   circuitbreaker:
     configs:
       shared:
         register-health-indicator: true
-        sliding-window-type: count_based
-        sliding-window-size: 5
-        failure-rate-threshold: 40
-        slow-call-rate-threshold: 40
-        permitted-number-of-calls-in-half-open-state: 1
-        max-wait-duration-in-half-open-state: 10s
-        wait-duration-in-open-state: 10s
-        slow-call-duration-threshold: 2s
-        writable-stack-trace-enabled: true
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
         automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: count_based
     instances:
-      example:
+      orderService:
         base-config: shared
   retry:
     instances:
-      retryApi:
-        max-attempts: 3
-        wait-duration: 1s
+      orderService:
+        max-attempts: 5
+        wait-duration: 10s
+  ratelimiter:
+    instances:
+      orderService:
+        register-health-indicator: false
+        limit-for-period: 10
+        limit-refresh-period: 10s
+        timeout-duration: 3s
     metrics:
       legacy:
         enabled: true

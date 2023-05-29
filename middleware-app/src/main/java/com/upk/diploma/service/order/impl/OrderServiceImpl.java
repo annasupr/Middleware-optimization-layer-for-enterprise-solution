@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class OrderServiceImpl extends BasicRestService<OrderResponse> implements OrderService {
 
+
     private static final String ORDER_API_PATH = "/api/orders";
     private static final String ORDER_API_BY_ID_PATH = "/api/orders/{id}";
     private static final String ORDER_API_BY_CUSTOMER_PATH = "/api/orders/customer/{id}";
@@ -68,4 +69,5 @@ public class OrderServiceImpl extends BasicRestService<OrderResponse> implements
         HttpHeaders headers = createHeaders();
         delete(url, headers);
     }
+
 }
