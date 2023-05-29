@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductInstanceStatusResponse {
+public class ProductInstanceStatusResponse implements Serializable {
     private Long id;
     private String name;
 }

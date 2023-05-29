@@ -9,8 +9,9 @@ import com.upk.diploma.dto.catalog.ProductCategoryResponse;
 import com.upk.diploma.dto.catalog.ProductInstanceResponse;
 import com.upk.diploma.dto.catalog.ProductResponse;
 import com.upk.diploma.dto.catalog.StorehouseResponse;
-import com.upk.diploma.service.catalog.CatalogService;
+import com.upk.diploma.service.catalog.ReadCatalogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CatalogServiceImpl implements CatalogService {
+public class ReadCatalogServiceImpl implements ReadCatalogService {
 
     private final RestTemplate restTemplate;
     
@@ -32,6 +33,7 @@ public class CatalogServiceImpl implements CatalogService {
     public static final String PRODUCTS_API_PATH = "/api/products";
     public static final String PRODUCT_INSTANCES_API_PATH = "/api/product-instances";
 
+    @Cacheable(value = "storehouses")
     @Override
     public List<StorehouseResponse> getAllStorehouses() {
         String url = externalServicesProperties.getCatalogServiceUrl() + CATALOG_API_PATH + "/storehouses";
@@ -44,6 +46,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "markets")
     @Override
     public List<MarketResponse> getAllMarkets() {
         String url = externalServicesProperties.getCatalogServiceUrl() + CATALOG_API_PATH + "/markets";
@@ -56,6 +59,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "points-of-distribution")
     @Override
     public List<PointOfDistributionResponse> getAllPointsOfDistribution() {
         String url = externalServicesProperties.getCatalogServiceUrl() + CATALOG_API_PATH + "/points-of-distribution";
@@ -68,6 +72,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "durations")
     @Override
     public List<DurationResponse> getAllDurations() {
         String url = externalServicesProperties.getCatalogServiceUrl() + CATALOG_API_PATH + "/durations";
@@ -80,6 +85,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "product-categories")
     @Override
     public List<ProductCategoryResponse> getAllProductCategories() {
         String url = externalServicesProperties.getCatalogServiceUrl() + CATALOG_API_PATH + "/product-categories";
@@ -92,6 +98,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "offers", key = "#id")
     @Override
     public OfferResponse getOfferById(Long id) {
         String url = externalServicesProperties.getCatalogServiceUrl() + OFFERS_API_PATH + "/" + id;
@@ -99,6 +106,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "offers")
     @Override
     public List<OfferResponse> getAllOffers() {
         String url = externalServicesProperties.getCatalogServiceUrl() + OFFERS_API_PATH;
@@ -111,6 +119,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "product-instances", key = "#id")
     @Override
     public ProductInstanceResponse getProductInstanceById(Long id) {
         String url = externalServicesProperties.getCatalogServiceUrl() + PRODUCT_INSTANCES_API_PATH + "/" + id;
@@ -118,6 +127,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "product-instances")
     @Override
     public List<ProductInstanceResponse> getAllProductInstances() {
         String url = externalServicesProperties.getCatalogServiceUrl() + PRODUCT_INSTANCES_API_PATH;
@@ -130,6 +140,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "products", key = "#id")
     @Override
     public ProductResponse getProductById(Long id) {
         String url = externalServicesProperties.getCatalogServiceUrl() + PRODUCTS_API_PATH + "/" + id;
@@ -137,6 +148,7 @@ public class CatalogServiceImpl implements CatalogService {
         return response.getBody();
     }
 
+    @Cacheable(value = "products")
     @Override
     public List<ProductResponse> getAllProducts() {
         String url = externalServicesProperties.getCatalogServiceUrl() + PRODUCTS_API_PATH;

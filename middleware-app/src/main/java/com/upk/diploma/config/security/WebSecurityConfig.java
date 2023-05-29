@@ -4,6 +4,7 @@ import com.upk.diploma.config.security.jwt.AuthEntryPointJwt;
 import com.upk.diploma.config.security.jwt.AuthTokenFilter;
 import com.upk.diploma.config.security.jwt.JwtUtils;
 import com.upk.diploma.config.security.service.UserDetailsService;
+import com.upk.diploma.controller.catalog.PublicCatalogApi;
 import com.upk.diploma.controller.customer.PublicUserApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -51,7 +52,7 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/**")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/auth")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher(PublicCatalogApi.PUBLIC_CATALOG_API_PATH + "/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)

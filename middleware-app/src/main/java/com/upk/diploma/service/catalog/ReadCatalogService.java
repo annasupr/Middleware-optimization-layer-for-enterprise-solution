@@ -11,7 +11,7 @@ import com.upk.diploma.dto.catalog.StorehouseResponse;
 
 import java.util.List;
 
-public interface CatalogService {
+public interface ReadCatalogService {
 
     List<StorehouseResponse> getAllStorehouses();
 
