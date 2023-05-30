@@ -53,6 +53,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(new AntPathRequestMatcher(PublicUserApi.PUBLIC_USER_API_PATH + "/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher(PublicCatalogApi.PUBLIC_CATALOG_API_PATH + "/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/api/v1/check/feign/client/random")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)

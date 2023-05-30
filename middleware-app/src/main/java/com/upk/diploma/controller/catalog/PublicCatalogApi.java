@@ -10,7 +10,6 @@ import com.upk.diploma.dto.catalog.ProductResponse;
 import com.upk.diploma.dto.catalog.StorehouseResponse;
 import com.upk.diploma.service.catalog.ReadCatalogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
