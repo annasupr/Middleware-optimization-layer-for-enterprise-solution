@@ -3,6 +3,11 @@ package com.upk.diploma.customerservice.controller;
 import com.upk.diploma.customerservice.dto.UserAccountCreateRequest;
 import com.upk.diploma.customerservice.dto.UserAccountResponse;
 import com.upk.diploma.customerservice.service.UserAccountService;
+import com.upk.diploma.customerservice.util.SpanUtils;
+import io.opencensus.common.Scope;
+import io.opencensus.trace.Span;
+import io.opencensus.trace.Tracer;
+import io.opencensus.trace.Tracing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,17 +30,29 @@ public class UserAccountApi {
 
     private final UserAccountService userAccountService;
 
+    private static final Tracer tracer = Tracing.getTracer();
+
     @GetMapping("/{userAccountId}")
     public final ResponseEntity<UserAccountResponse> getUserAccountById(@PathVariable final Long userAccountId) {
-        final UserAccountResponse foundUserAccount = userAccountService.getById(userAccountId);
-
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi getUserAccountById").startSpan();
+        UserAccountResponse foundUserAccount = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            foundUserAccount = userAccountService.getById(userAccountId);
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(foundUserAccount, HttpStatus.OK);
     }
 
     @GetMapping
     public final ResponseEntity<UserAccountResponse> getUserAccountByUsername(@RequestHeader final String username) {
-        final UserAccountResponse foundUserAccount = userAccountService.getByUsername(username);
-
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi getUserAccountByUsername").startSpan();
+        UserAccountResponse foundUserAccount = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            foundUserAccount = userAccountService.getByUsername(username);
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(foundUserAccount, HttpStatus.OK);
     }
 
@@ -43,38 +60,63 @@ public class UserAccountApi {
     public final ResponseEntity<UserAccountResponse> createUserAccount(
             @RequestBody final UserAccountCreateRequest userAccountCreateRequest
     ) {
-        final UserAccountResponse createdUserAccount = userAccountService.create(userAccountCreateRequest);
-
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi createUserAccount").startSpan();
+        UserAccountResponse createdUserAccount = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            createdUserAccount = userAccountService.create(userAccountCreateRequest);
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(createdUserAccount, HttpStatus.CREATED);
     }
 
     @PutMapping("/{userAccountId}")
-    public final ResponseEntity<UserAccountResponse> updateUserAccount( @PathVariable final Long userAccountId,
+    public final ResponseEntity<UserAccountResponse> updateUserAccount(
+            @PathVariable final Long userAccountId,
             @RequestBody final UserAccountCreateRequest userAccountCreateRequest
     ) {
-        final UserAccountResponse createdUserAccount = userAccountService.update(userAccountId, userAccountCreateRequest);
-
-        return new ResponseEntity<>(createdUserAccount, HttpStatus.CREATED);
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi updateUserAccount").startSpan();
+        UserAccountResponse updatedUserAccount = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            updatedUserAccount = userAccountService.update(userAccountId, userAccountCreateRequest);
+        } finally {
+            span.end();
+        }
+        return new ResponseEntity<>(updatedUserAccount, HttpStatus.OK);
     }
 
     @DeleteMapping("/{userAccountId}")
-    public final ResponseEntity<Void> updateUserAccount( @PathVariable final Long userAccountId) {
-        userAccountService.delete(userAccountId);
-
+    public final ResponseEntity<Void> deleteUserAccount(@PathVariable final Long userAccountId) {
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi deleteUserAccount").startSpan();
+        try (Scope ws = tracer.withSpan(span)) {
+            userAccountService.delete(userAccountId);
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/username")
     public final ResponseEntity<Boolean> checkIfUsernameExists(@RequestHeader final String username) {
-        final Boolean usernameExists = userAccountService.verifyUsernameExists(username);
-
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi checkIfUsernameExists").startSpan();
+        Boolean usernameExists = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            usernameExists = userAccountService.verifyUsernameExists(username);
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(usernameExists, HttpStatus.OK);
     }
 
     @GetMapping("/email")
     public final ResponseEntity<Boolean> checkIfEmailExists(@RequestHeader final String email) {
-        final Boolean usernameExists = userAccountService.verifyEmailExists(email);
-
-        return new ResponseEntity<>(usernameExists, HttpStatus.OK);
+        Span span = SpanUtils.buildSpan(tracer, "UserAccountApi checkIfEmailExists").startSpan();
+        Boolean emailExists = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            emailExists = userAccountService.verifyEmailExists(email);
+        } finally {
+            span.end();
+        }
+        return new ResponseEntity<>(emailExists, HttpStatus.OK);
     }
 }

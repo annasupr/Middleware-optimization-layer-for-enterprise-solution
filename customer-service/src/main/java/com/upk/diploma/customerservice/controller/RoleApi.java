@@ -2,6 +2,11 @@ package com.upk.diploma.customerservice.controller;
 
 import com.upk.diploma.customerservice.dto.RoleResponse;
 import com.upk.diploma.customerservice.service.RoleService;
+import com.upk.diploma.customerservice.util.SpanUtils;
+import io.opencensus.common.Scope;
+import io.opencensus.trace.Span;
+import io.opencensus.trace.Tracer;
+import io.opencensus.trace.Tracing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +24,17 @@ public class RoleApi {
 
     private final RoleService roleService;
 
+    private static final Tracer tracer = Tracing.getTracer();
+
     @GetMapping
     public ResponseEntity<List<RoleResponse>> getAllRolesForUsers() {
-        final List<RoleResponse> allDealCategories = roleService.getAll();
-
-        return new ResponseEntity<>(allDealCategories, HttpStatus.OK);
+        Span span = SpanUtils.buildSpan(tracer, "RoleApi getAllRolesForUsers").startSpan();
+        List<RoleResponse> allRoles = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            allRoles = roleService.getAll();
+        } finally {
+            span.end();
+        }
+        return new ResponseEntity<>(allRoles, HttpStatus.OK);
     }
 }

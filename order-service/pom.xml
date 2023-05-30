@@ -54,11 +54,6 @@
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.opentracing.contrib</groupId>-->
-<!--			<artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>-->
-<!--			<version>3.3.1</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>io.opencensus</groupId>
 			<artifactId>opencensus-api</artifactId>

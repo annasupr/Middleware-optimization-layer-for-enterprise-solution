@@ -6,6 +6,11 @@ import com.upk.diploma.catalogservice.dto.ProductInstanceResponse;
 import com.upk.diploma.catalogservice.dto.ProductResponse;
 import com.upk.diploma.catalogservice.dto.SearchResponse;
 import com.upk.diploma.catalogservice.service.SearchService;
+import com.upk.diploma.catalogservice.util.SpanUtils;
+import io.opencensus.common.Scope;
+import io.opencensus.trace.Span;
+import io.opencensus.trace.Tracer;
+import io.opencensus.trace.Tracing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +31,23 @@ public class SearchApi {
     private final PaginationProperties paginationProperties;
     public static final String SEARCH_PUBLIC_API_PATH = "/api/public/search";
 
+    private static final Tracer tracer = Tracing.getTracer();
+
     @GetMapping("/offers")
     public ResponseEntity<SearchResponse<OfferResponse>> searchOffers(
             @RequestParam(value = "text") final String text,
             @RequestHeader(value = "page", required = false) Integer page,
             @RequestHeader(value = "pageSize", required = false) Integer pageSize
     ) {
-        page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
-        pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
-
-        final SearchResponse<OfferResponse> offers = searchService.searchOffers(text, page, pageSize);
-
+        Span span = SpanUtils.buildSpan(tracer, "SearchApi searchOffers").startSpan();
+        SearchResponse<OfferResponse> offers = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
+            pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
+            offers = searchService.searchOffers(text, page, pageSize);
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(offers, HttpStatus.OK);
     }
 
@@ -46,12 +57,16 @@ public class SearchApi {
             @RequestHeader(value = "page", required = false) Integer page,
             @RequestHeader(value = "pageSize", required = false) Integer pageSize
     ) {
-        page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
-        pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
-
-        final SearchResponse<ProductResponse> offers = searchService.searchProducts(text, page, pageSize);
-
-        return new ResponseEntity<>(offers, HttpStatus.OK);
+        Span span = SpanUtils.buildSpan(tracer, "SearchApi searchProducts").startSpan();
+        SearchResponse<ProductResponse> products = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
+            pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
+            products = searchService.searchProducts(text, page, pageSize);
+        } finally {
+            span.end();
+        }
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/product-instances")
@@ -60,11 +75,15 @@ public class SearchApi {
             @RequestHeader(value = "page", required = false) Integer page,
             @RequestHeader(value = "pageSize", required = false) Integer pageSize
     ) {
-        page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
-        pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
-
-        final SearchResponse<ProductInstanceResponse> offers = searchService.searchProductInstances(text, page, pageSize);
-
-        return new ResponseEntity<>(offers, HttpStatus.OK);
+        Span span = SpanUtils.buildSpan(tracer, "SearchApi searchProductInstances").startSpan();
+        SearchResponse<ProductInstanceResponse> productInstances = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            page = Optional.ofNullable(page).orElse(paginationProperties.getDefaultPageValue());
+            pageSize = Optional.ofNullable(pageSize).orElse(paginationProperties.getDefaultPageSize());
+            productInstances = searchService.searchProductInstances(text, page, pageSize);
+        } finally {
+            span.end();
+        }
+        return new ResponseEntity<>(productInstances, HttpStatus.OK);
     }
 }

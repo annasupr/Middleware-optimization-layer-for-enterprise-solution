@@ -1,0 +1,13 @@
+package com.upk.diploma.catalogservice.util;
+
+import io.opencensus.trace.SpanBuilder;
+import io.opencensus.trace.Tracer;
+import io.opencensus.trace.samplers.Samplers;
+
+public class SpanUtils {
+    public static SpanBuilder buildSpan(Tracer tracer, String name) {
+        return tracer.spanBuilder(name)
+                .setRecordEvents(true)
+                .setSampler(Samplers.alwaysSample());
+    }
+}

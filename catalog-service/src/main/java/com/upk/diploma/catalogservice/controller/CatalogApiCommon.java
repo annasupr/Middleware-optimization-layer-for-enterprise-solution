@@ -6,6 +6,11 @@ import com.upk.diploma.catalogservice.dto.PointOfDistributionResponse;
 import com.upk.diploma.catalogservice.dto.ProductCategoryResponse;
 import com.upk.diploma.catalogservice.dto.StorehouseResponse;
 import com.upk.diploma.catalogservice.service.CatalogServiceCommon;
+import com.upk.diploma.catalogservice.util.SpanUtils;
+import io.opencensus.common.Scope;
+import io.opencensus.trace.Span;
+import io.opencensus.trace.Tracer;
+import io.opencensus.trace.Tracing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,33 +28,65 @@ public class CatalogApiCommon {
 
     private final CatalogServiceCommon catalogService;
 
+    private static final Tracer tracer = Tracing.getTracer();
+
     @GetMapping("/storehouses")
     public ResponseEntity<List<StorehouseResponse>> getAllStorehouses() {
-        List<StorehouseResponse> storehouses = catalogService.getAllStorehouses();
+        Span span = SpanUtils.buildSpan(tracer, "CatalogApiCommon getAllStorehouses").startSpan();
+        List<StorehouseResponse> storehouses = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            storehouses = catalogService.getAllStorehouses();
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(storehouses, HttpStatus.OK);
     }
 
     @GetMapping("/markets")
     public ResponseEntity<List<MarketResponse>> getAllMarkets() {
-        List<MarketResponse> markets = catalogService.getAllMarkets();
+        Span span = SpanUtils.buildSpan(tracer, "CatalogApiCommon getAllMarkets").startSpan();
+        List<MarketResponse> markets = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            markets = catalogService.getAllMarkets();
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(markets, HttpStatus.OK);
     }
 
     @GetMapping("/points-of-distribution")
     public ResponseEntity<List<PointOfDistributionResponse>> getAllPointsOfDistribution() {
-        List<PointOfDistributionResponse> pointsOfDistribution = catalogService.getAllPointsOfDistribution();
+        Span span = SpanUtils.buildSpan(tracer, "CatalogApiCommon getAllPointsOfDistribution").startSpan();
+        List<PointOfDistributionResponse> pointsOfDistribution = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            pointsOfDistribution = catalogService.getAllPointsOfDistribution();
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(pointsOfDistribution, HttpStatus.OK);
     }
 
     @GetMapping("/durations")
     public ResponseEntity<List<DurationResponse>> getAllDurations() {
-        List<DurationResponse> durations = catalogService.getAllDurations();
+        Span span = SpanUtils.buildSpan(tracer, "CatalogApiCommon getAllDurations").startSpan();
+        List<DurationResponse> durations = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            durations = catalogService.getAllDurations();
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(durations, HttpStatus.OK);
     }
 
     @GetMapping("/product-categories")
     public ResponseEntity<List<ProductCategoryResponse>> getAllProductCategories() {
-        List<ProductCategoryResponse> productCategories = catalogService.getAllProductCategories();
+        Span span = SpanUtils.buildSpan(tracer, "CatalogApiCommon getAllProductCategories").startSpan();
+        List<ProductCategoryResponse> productCategories = null;
+        try (Scope ws = tracer.withSpan(span)) {
+            productCategories = catalogService.getAllProductCategories();
+        } finally {
+            span.end();
+        }
         return new ResponseEntity<>(productCategories, HttpStatus.OK);
     }
 }
